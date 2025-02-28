@@ -32,17 +32,20 @@ export async function getDataUnitesOrgListe(lesData) {
     //console.log(lesData.nomenclatures)
 }
 
-export async function getDataEmployesUtilisationListe(lesData) {
-    const idNomenclature = lesData.idNomenclature
-    const urlec = `${g_devurl}/goeland/gestion_spec/nomenclature_droitutilisation/axios/nomenclature_employes_utilisation_liste.php`
-    const params = new URLSearchParams([['idnomenclature', idNomenclature]])
+export async function getDataEmployesCreationListe(lesData) {
+    const idUniteOrg = lesData.idUniteOrg
+    const urlec = `${g_devurl}/goeland/gestion_spec/affopcdempccharge_droitcreation/axios/charge_employes_creation_liste.php`
+    const params = new URLSearchParams([['iduniteorg', idUniteOrg]])
     const response = await axios.get(urlec, {params})
         .catch(function (error) {
             traiteAxiosError(error, lesData)
         })      
-    const employesUtilisation = response.data
-    lesData.employesUtilisation = ref(employesUtilisation)
-    //console.log(lesData.employesUtilisation)
+    const employesCreation = response.data
+    employesCreation.forEach(emp => {
+        emp.boolActifChargeCre = emp.bactif === 1    
+    })
+    lesData.employesCreation = ref(employesCreation)
+    console.log(lesData.employesCreation)
 }
 
 export async function getDataEmployesListe(lesData) {
@@ -53,7 +56,7 @@ export async function getDataEmployesListe(lesData) {
         if (critereEmployesInactifs) {
             bretInactif = 'true'    
         }
-        const urlem = `${g_devurl}/goeland/gestion_spec/nomenclature_droitutilisation/axios/employes_liste.php`;
+        const urlem = `${g_devurl}/goeland/gestion_spec/affopcdempccharge_droitcreation/axios/employes_liste.php`;
         const params = new URLSearchParams([['scritere', critereEmployes], ['bretinactif', bretInactif]]);
         const response = await axios.get(urlem, {params})
             .catch(function (error) {

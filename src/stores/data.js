@@ -8,11 +8,11 @@ export const data = defineStore('iddata', () => {
   const loginEmployeUser = ref('');
   const groupeSecurite = ref('');
   const bInGroupe = ref(0);
-  const idNomenclature = ref(0);
-  const nomenclature = ref('');
+  const idUniteOrg = ref(0);
+  const uniteOrg = ref('');
   const unitesorg = ref([]);
   const idEmployeUtilisationChoix = ref(0);
-  const employesUtilisation = ref([]);
+  const employesCreation = ref([]);
   const critereEmployes = ref('');
   const critereEmployesInactifs = ref(false);
   const employesListe = ref([]);
@@ -26,11 +26,11 @@ export const data = defineStore('iddata', () => {
     loginEmployeUser,
     groupeSecurite,
     bInGroupe,
-    idNomenclature,
-    nomenclature,
+    idUniteOrg,
+    uniteOrg,
     unitesorg,
     idEmployeUtilisationChoix,
-    employesUtilisation,
+    employesCreation,
     critereEmployes,
     critereEmployesInactifs,
     employesListe,

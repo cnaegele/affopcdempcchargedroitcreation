@@ -27,7 +27,7 @@
 <script setup>
   import UserInformation from '@/components/UserInformation.vue'
   import UnitesOrgListe from '@/components/UnitesOrgListe.vue'
-  import EmployesUtilisationListe from '@/components/EmployesUtilisationListe.vue'
+  import EmployesUtilisationListe from '@/components/EmployesCreationListe.vue'
   import EmployesListe from '@/components/EmployesListe.vue'
   import { data } from '@/stores/data.js'
   const lesData = data()
