@@ -45,7 +45,7 @@ export async function getDataEmployesCreationListe(lesData) {
         emp.boolActifChargeCre = emp.bactif === 1    
     })
     lesData.employesCreation = ref(employesCreation)
-    console.log(lesData.employesCreation)
+    //console.log(lesData.employesCreation)
 }
 
 export async function getDataEmployesListe(lesData) {
@@ -68,17 +68,23 @@ export async function getDataEmployesListe(lesData) {
     }
 }
 
-export async function sauveTypeAffaireEmployeCreation(idEmploye, lesData) {
-    const idNomenclature = lesData.idNomenclature
-    console.log(`sauve idNomenclature:${idNomenclature} IdEmploye:${idEmploye}`)
+export async function modifieChargeEmployeCreation(employeCreation, lesData) {
+    const idUniteOrg = lesData.idUniteOrg
+    const idEmploye = employeCreation.idemploye
+    const boolActifChargeCre = employeCreation.boolActifChargeCre
+    const idDocCT = employeCreation.iddocct
+
+    console.log(`modifie idUniteOrg:${idUniteOrg} idEmploye:${idEmploye} boolActifChargeCre:${boolActifChargeCre} idDocCT:${idDocCT}`)
     const odata = {
-        action: 'sauve',
-        idnomenclature: idNomenclature,
-        idemploye: idEmploye
+        action: 'modifie',
+        iduniteorg: idUniteOrg,
+        idemploye: idEmploye,
+        boolactifchargecre: boolActifChargeCre,
+        iddocct: idDocCT
     }
     const jdata = JSON.stringify(odata)
-    const urlsn = `${g_devurl}/goeland/gestion_spec/nomenclature_droitutilisation/axios/nomenclature_employes_utilisation_sauve.php`
-    const response = await axios.post(urlsn, jdata, {
+    const urlmc = `${g_devurl}/goeland/gestion_spec/affopcdempccharge_droitcreation/axios/charge_employes_creation_sauve.php`
+    const response = await axios.post(urlmc, jdata, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -90,21 +96,20 @@ export async function sauveTypeAffaireEmployeCreation(idEmploye, lesData) {
     if (response.data.message.indexOf('ERREUR') == 0) {
         lesData.messageErreur =  response.data.message   
     }
-    getDataEmployesUtilisationListe(lesData)
+    getDataEmployesCreationListe(lesData)
 }
 
-export async function supprimeNomenclatureEmployeUtilisation(idEmploye, lesData) {
-    const idNomenclature = lesData.idNomenclature
-    console.log(`supprime idNomenclature:${idNomenclature} IdEmploye:${idEmploye}`)
+export async function sauveChargeEmployeCreation(idEmploye, lesData) {
+    const idUniteOrg = lesData.idUniteOrg
+    console.log(`sauve idUniteOrg:${idUniteOrg} idEmploye:${idEmploye}`)
     const odata = {
-        action: 'supprime',
-        idnomenclature: idNomenclature,
+        action: 'sauve',
+        iduniteorg: idUniteOrg,
         idemploye: idEmploye
     }
     const jdata = JSON.stringify(odata)
-    console.log(jdata)
-    const urlsn = `${g_devurl}/goeland/gestion_spec/nomenclature_droitutilisation/axios/nomenclature_employes_utilisation_sauve.php`
-    const response = await axios.post(urlsn, jdata, {
+    const urlsc = `${g_devurl}/goeland/gestion_spec/affopcdempccharge_droitcreation/axios/charge_employes_creation_sauve.php`
+    const response = await axios.post(urlsc, jdata, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -116,7 +121,32 @@ export async function supprimeNomenclatureEmployeUtilisation(idEmploye, lesData)
     if (response.data.message.indexOf('ERREUR') == 0) {
         lesData.messageErreur =  response.data.message   
     }
-    getDataEmployesUtilisationListe(lesData)
+    getDataEmployesCreationListe(lesData)
+}
+
+export async function supprimeChargeEmployeCreation(idEmploye, lesData) {
+    const idUniteOrg = lesData.idUniteOrg
+    console.log(`supprime idUniteOrg:${idUniteOrg} idEmploye:${idEmploye}`)
+    const odata = {
+        action: 'supprime',
+        iduniteorg: idUniteOrg,
+        idemploye: idEmploye
+    }
+    const jdata = JSON.stringify(odata)
+    const urlsc = `${g_devurl}/goeland/gestion_spec/affopcdempccharge_droitcreation/axios/charge_employes_creation_sauve.php`
+    const response = await axios.post(urlsc, jdata, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .catch(function (error) {
+            traiteAxiosError(error, lesData)
+        })      
+        console.log(response.data)
+        if (response.data.message.indexOf('ERREUR') == 0) {
+        lesData.messageErreur =  response.data.message   
+    }
+    getDataEmployesCreationListe(lesData)
 }
 
 function traiteAxiosError(error, lesData) {

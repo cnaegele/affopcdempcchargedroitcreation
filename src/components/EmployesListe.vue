@@ -9,7 +9,7 @@
                     v-bind:id="'liemploye' + employe.idemploye" 
                     v-bind:class="'empbactif' + employe.bactif" 
                     v-bind:title="employe.directionabr + '-' + employe.serviceabr + ' - ' + employe.unite"
-                    v-on:click="typeaffaireEmployecreationAjout(employe.idemploye)"
+                    v-on:click="chargeEmployecreationAjout(employe.idemploye)"
                 >
                     {{employe.nom}} {{employe.prenom}}&nbsp; 
                     <span class="emplogin">({{employe.login}})</span>
@@ -22,7 +22,7 @@
     import {reactive, ref} from 'vue'
     import { data } from '@/stores/data.js'
     import { getDataEmployesListe } from '@/affopcdempcchargedroitcreation.js'
-    import { sauveTypeAffaireEmployeCreation } from '@/affopcdempcchargedroitcreation.js'
+    import { sauveChargeEmployeCreation } from '@/affopcdempcchargedroitcreation.js'
    let state = reactive({
         critereEmployes: "",
         bRetInactif: false   
@@ -34,11 +34,11 @@
         getDataEmployesListe(lesData)
     } 
 
-    function typeaffaireEmployecreationAjout(idEmploye) {
+    function chargeEmployecreationAjout(idEmploye) {
         lesData.idEmployeChoix = ref(idEmploye)
         const oEl = document.getElementById(`liemploye${idEmploye}`)
         oEl.classList.add("empchoisi");
-        sauveTypeAffaireEmployeCreation(idEmploye, lesData)
+        sauveChargeEmployeCreation(idEmploye, lesData)
     }
 
 </script>

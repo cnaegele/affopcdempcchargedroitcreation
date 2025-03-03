@@ -3,30 +3,32 @@
     <div class="flex-table">
         <template v-for="employeCreation in lesData.employesCreation" v-bind:key="employeCreation.idemploye">
             <div class="row">
-                <!--<span class="spnbtnsuppr"><button v-on:click="nomenclatureEmployeUtilisationSupprime(employeUtilisation.idemploye)">x</button></span>&nbsp;-->
-                <div class="cell col-large">
-                    <span :class="{'employedesactive' : employeCreation.bactifemploye === 0 }" v-bind:title="employeCreation.uniteorgemploye">{{ employeCreation.nomemploye }}</span>&nbsp;
-                </div>
-                <div class="cell col-medium">
-                    <span title="nombre de cr&eacute;ations/r&eacute;f&eacute;rences">[{{employeCreation.nbrchargecre}}/{{employeCreation.nbrchargeref}}]</span>&nbsp;
-                </div>
-                <div class="cell col-small">
-                    <input 
-                        type="checkbox" 
-                        v-model="employeCreation.boolActifChargeCre" 
-                        @change="employeCreationSauve(employeCreation)"
-                        class="mr-2"
-                    />
-                </div>                
-                <div class="cell col-small">
-                    <input 
-                        type="text" 
-                        v-model="employeCreation.iddocct" 
-                        @change="employeCreationSauve(employeCreation)"
-                        maxlength="8"
-                        class="numdocct"
-                    />
-                </div>
+              <div class="cell col-small">
+              <span v-if="employeCreation.nbrchargeref === 0" class="spnbtnsuppr"><button v-on:click="employeCreationSupprime(employeCreation.idemploye)">x</button></span>
+              </div>
+              <div class="cell col-large">
+                  <span :class="{'employedesactive' : employeCreation.bactifemploye === 0 }" v-bind:title="employeCreation.uniteorgemploye">{{ employeCreation.nomemploye }}</span>&nbsp;
+              </div>
+              <div class="cell col-medium">
+                  <span title="nombre de cr&eacute;ations/r&eacute;f&eacute;rences">[{{employeCreation.nbrchargecre}}/{{employeCreation.nbrchargeref}}]</span>&nbsp;
+              </div>
+              <div class="cell col-small">
+                  <input 
+                      type="checkbox" 
+                      v-model="employeCreation.boolActifChargeCre" 
+                      @change="employeCreationModifie(employeCreation)"
+                      class="mr-2"
+                  />
+              </div>                
+              <div class="cell col-small">
+                  <input 
+                      type="text" 
+                      v-model="employeCreation.iddocct" 
+                      @change="employeCreationModifie(employeCreation)"
+                      maxlength="8"
+                      class="numdocct"
+                  />
+              </div>
             </div>
         </template>
     </div>
@@ -34,13 +36,17 @@
 <script setup>
     import { ref } from 'vue'
     import { data } from '@/stores/data.js'
-    import { supprimeNomenclatureEmployeUtilisation } from '@/affopcdempcchargedroitcreation.js'
+    import { modifieChargeEmployeCreation, supprimeChargeEmployeCreation } from '@/affopcdempcchargedroitcreation.js'
     let lesData = data()
 
-    function employeCreationSauve(employeCreationSauve) {
-        console.log(employeCreationSauve)
-        //supprimeNomenclatureEmployeUtilisation(idEmploye, lesData)
+    function employeCreationModifie(employeCreation) {
+      modifieChargeEmployeCreation(employeCreation, lesData)
     }
+
+    function employeCreationSupprime(idEmploye) {
+        supprimeChargeEmployeCreation(idEmploye, lesData)
+    }
+    
  </script>
 
 <style scoped>
